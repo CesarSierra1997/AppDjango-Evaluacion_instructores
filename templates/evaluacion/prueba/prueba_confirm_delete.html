@@ -1,0 +1,23 @@
+{% extends "evaluacionHome.html" %}
+{% block title %}
+Deshabilitar prueba
+{% endblock title %}
+
+{% block appEvaluacion %}
+<main class="container py-5">
+    <div class="card card-body m-5 ">
+        <div class="card-header bg-secondary">
+            <h4>Confirmar deshabilitar prueba</h4>
+        </div>
+        <div class="text-center">
+            <form method="POST">
+                {% csrf_token %}
+                <h5>¿Desea deshabilitar la prueba "{{object}}"?</h5>
+                <button type="submit" class="btn btn-danger">Deshabilitar</button>
+                <a class="btn btn-dark" href="{% url 'listar_pruebas' %}">Cancelar</a>
+            </form>
+        </div>
+    </div>
+</main>
+
+{% endblock appEvaluacion %}

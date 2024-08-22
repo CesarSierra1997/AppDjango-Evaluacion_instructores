@@ -1,0 +1,44 @@
+{% extends "evaluacionHome.html" %}
+{% block title %}
+Lista de pruebas
+{% endblock title %}
+{% block appEvaluacion %}
+    <h5 class="card-header">Lista de pruebas</h5>
+    <div class="card bg-light mt-2 p-4">
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead class="table bg-ligth">
+                    <tr class="justify-content-start ">
+                        <th class="text-center">ID PRUEBA</th>
+                        <th class="text-center">FICHA</th>
+                        <th class="text-center">USUARIOS</th>
+                        <th class="text-center">FECHA DE CREACION</th>
+                        <th class="text-center">RESPUESTAS</th>
+                        <th class="text-center">OPCIONES</th>
+                        {% comment %} <th class="text-center">Documento</th>
+                        <th class="text-center">Nombres</th> {% endcomment %}
+
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for prueba in form %}
+
+                    <tr>
+                        <td class="text-center">{{ prueba.id }}</td>
+                        <td class="text-center">{{prueba.ficha.numero}}</td>
+                        <td class="text-center">{{ prueba.ficha }}</td>
+                        <td class="text-center">{{prueba.fecha_creacion}}</td>
+                        <td class="text-center"></td>
+                        <td class="text-center">
+                            <a class="btn btn-outline-danger m-1" href="{% url 'eliminar_prueba' prueba.id %}"><i class="fa-solid fa-eye-slash"></i></a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+<a href="{% url 'crear_prueba'%}" class="btn btn-primary "> <li class="fa fa-create" > Agregar prueba</li> </a>
+            
+    </div>
+{% endblock appEvaluacion %}

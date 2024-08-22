@@ -1,0 +1,183 @@
+{% extends "index.html" %}
+{% block title %}
+Evaluacion Home
+{% endblock title %}
+
+{% block body %}
+{% block style %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/style_home.css' %}">
+{% endblock style %}
+
+<body>
+    <div class="mt-2">
+        {% if not request.user.is_authenticated %}
+
+        <nav class="navbar navbar-white bg-light border border-light-10 fixed-start ">
+            <div class="container-fluid justify-content-start">
+                <a class="navbar-brand text-black" href=""><i class="fa-solid fa-file-circle-question"></i> Evaluacion
+                    de instructores</a>
+                {% else %}
+                <nav style="background-color: #108ef5; border-top-right-radius: 10px; border-top-left-radius: 10px;"
+                    class="navbar navbar-light ">
+                    <div class="container-fluid justify-content-start">
+                        <a class="navbar-brand" href="">
+                        </a>
+                        <a class="navbar-brand text-white" href="{% url 'evaluacionHome' %}"><i
+                                class="text-white fa-solid fa-document"></i><strong> App Evaluacion de
+                                instructores</strong></a>
+                        {% endif %}
+                        {% if request.user.is_authenticated %}
+                        <button class="navbar-toggler bg-light" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                            <ul class="navbar-nav me-auto mb-lg-0">
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown"
+                                        role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="fa-regular fa-folder-open"></i> Modulo de pruebas
+                                    </a>
+                                    <ul class="dropdown-menu" style="background-color: #efefeb ;"
+                                        aria-labelledby="navbarDropdown">
+                                        <li><a class="text-primary dropdown-item" href="{% url 'crear_prueba' %}"><i
+                                                    class="fa-solid fa-file-circle-plus"></i> Crear prueba</a></li>
+                                        <li><a class="text-primary dropdown-item" href="{% url 'listar_pruebas' %}"><i
+                                                    class="fa-solid fa-file-lines"></i> Lista de pruebas</a></li>
+                                        <hr class="text-primary dropdown-divider">
+                                        <li><a class="text-primary dropdown-item" href=""><i
+                                                    class="fa-solid fa-file-export"></i> Lista de Respuestas</a>
+                                        <hr class="text-primary dropdown-divider">
+                                        <li><a class="text-primary dropdown-item" href="{% url 'carga_masiva' %}"><i
+                                                    class="fa-solid fa-upload"></i> Carga masiva</a>
+                                        </li>
+
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                            <ul class="navbar-nav me-auto mb-lg-0">
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link text-light" href="{% url  'usuario:listar_usuario'%}" id=""
+                                        role="" data-bs-toggle="" aria-expanded="false">
+                                        <i class="fa-solid fa-users-rectangle"></i> Modulo de Usuarios
+                                    </a>
+                                    <!-- <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <li ><a class="text-success dropdown-item" href="RUTA"><i class="ICONO"></i>INFO</a></li>
+                                    </ul> -->
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- Perfil navbar -->
+                        <div style="position: absolute; right: 0; top: 0; margin-top: 15px; margin-right: 18px;">
+                            <div style="all: initial; " class="dropdown">
+                                <a style=" all: initial;" class="nav-link dropdown-toggle text-white " href="#"
+                                    role="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="text-white fa fa-user-check"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-light text-success dropdown-menu-end"
+                                    aria-labelledby="profileDropdown">
+                                    <li><a class="dropdown-item" href="{% url 'index' %}">
+                                            <i class="fa-solid fa-user-gear"> perfil</i>
+                                        </a>
+                                    </li>
+                                    <li><a class="dropdown-item" href="{% url 'admin:index' %}">
+                                            <i class="fa-solid fa-screwdriver-wrench"> admin</i>
+                                        </a>
+                                    </li>
+                                    <hr class="dropdown-divider">
+                                    <li class="bg-danger"><a class="dropdown-item" href="{% url 'logout' %}">
+                                            <i class="fa fa-power-off"> logout</i>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        {% else %}
+                        <div style="position: absolute; right: 0; top: 0; margin-top: 15px; margin-right: 18px;">
+                            <div style="all: initial; " class="dropdown">
+                                <a style=" all: initial;" class="nav-link dropdown-toggle" href="#" role="button"
+                                    id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">Login
+                                    <i class="fa fa-user"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-light dropdown-menu-end"
+                                    aria-labelledby="profileDropdown">
+                                    <li><a class="dropdown-item" href="{% url 'login' %}">
+                                            <i class="fa fa-power-off"> Iniciar Sesion</i>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </nav>
+            </div>
+
+            {% block appEvaluacion %}
+            <h1>Buscar Prueba</h1>
+    
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Buscar</button>
+    </form>
+    
+    {% if prueba %}
+        <h2>Prueba Encontrada</h2>
+        <p>Ficha: {{ prueba.ficha.numero }}</p>
+        <p>Fecha de Creación: {{ prueba.fecha_creacion }}</p>
+        <p>Estado: {{ prueba.activa }}</p>
+    {% elif mensaje_error %}
+        <p>{{ mensaje_error }}</p>
+    {% endif %}
+            <section class="mt-2">
+                <div class="select-container">
+                    <div class="text-container">
+                        <div class="card mt-2 p-4 ">
+                            {% if request.user.is_authenticated %}
+
+                            <h3>Evaluacion de instructores</h3>
+                            <p>A continuación encontraras las evaluaciones disponibles</p>
+                            <div class="card-body card-block">
+                                <h5>Buscar evaluaciones disponibles</h5>
+                                <p>Digite el numero de ficha a la que pertenece, si pertenece a mas de una ficha debe
+                                    realizar la consulta de manera individual</p>
+                                <div class="login-form">
+                                    <form method="POST">
+                                        {% csrf_token %}
+                                        <div form-group>
+                                            <label class="text-primary text-header">Numero de ficha</label>
+                                            <input type="number" placeholder="Digite su numero de ficha"
+                                                style="width: 35%;">
+                                        </div>
+                                        <button type="submit" style="width: 50%;"
+                                            class="btn btn-outline-primary mt-2">Buscar
+                                            evaluacion</button>
+                                    </form>
+                                </div>
+                            </div>
+
+                            {% else %}
+                            <h3>Bienvenidos a la app evaluacion de instructores</h3>
+                            <p>Dirijase al login con sus credenciales de acceso, si no cuenta con estas, comuniquese con
+                                el administrador del sistema o su centro de formacion. <a href="{% url 'login' %}">Ir al
+                                    login</a></p>
+                            <div class="image-container ">
+                                <img style="width: 30%;" src="{% static 'img/evaluacion.png' %}"
+                                    alt="Imagen de encuestas">
+                            </div>
+                            {% endif %}
+
+                        </div>
+                    </div>
+                </div>
+            </section>
+            {% endblock appEvaluacion %}
+</body>
+
+{% endblock body %}

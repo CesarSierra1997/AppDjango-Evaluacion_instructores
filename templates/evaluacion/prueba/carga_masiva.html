@@ -1,0 +1,30 @@
+{% extends "evaluacionHome.html" %}
+{% block title %}
+Carga masiva
+{% endblock title %}
+{% load static %}
+{% block appEvaluacion %}
+<h5 class="card-header">Carga masiva de datos</h5>
+<div style="display: flex;" class="card card-body bg-light mt-2 p-4">
+{% if messages %}
+    <ul>
+    {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+    </ul>
+{% endif %}
+<form method="post" enctype="multipart/form-data" class="pl-5">
+    {% csrf_token %}
+    <h5><i class="fa-solid fa-clipboard-question"></i> Cargar Preguntas</h5>
+    <input class="text-primary" type="file" name="file_preguntas" accept=".xlsx, .xls">
+    <h5><i class="fa-solid fa-user-tie"></i> Cargar Instructores</h5>
+    <input class="text-primary" type="file" name="file_instructores" accept=".xlsx, .xls">
+    <h5><i class="fa-solid fa-users-line"></i> Cargar Aprendices</h5>
+    <input class="text-primary" type="file" name="file_aprendices" accept=".xlsx, .xls">
+    <br><br>
+    <input class="btn btn-outline-primary" style="width:30%;" type="submit" value="Cargar">
+</form>
+</div>
+
+
+{% endblock appEvaluacion %}

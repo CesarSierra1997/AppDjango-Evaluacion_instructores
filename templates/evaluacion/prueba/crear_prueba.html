@@ -1,0 +1,17 @@
+{% extends "evaluacionHome.html" %}
+{% block title %}
+Prueba Create
+{% endblock title %}
+{% block appEvaluacion %}
+    <h5 class="card-header">Crear prueba</h5>
+    <div style="display: flex;" class="card card-body bg-light mt-2 p-4">
+        <form style="flex: 1;"  method="POST">
+            {% csrf_token %}
+            {{ form }}
+        <button  class="btn btn-primary mt-2" style="width: 100%;" type="submit">Guardar</button>
+        <a class="btn btn-danger mt-1" style="width: 100%;" href="{% url 'evaluacionHome'  %}" style="flex: 1; margin-left: 5px; margin-right: 5px;">
+            Cancelar
+        </a>
+       </form>
+    </div>
+{% endblock appEvaluacion %}

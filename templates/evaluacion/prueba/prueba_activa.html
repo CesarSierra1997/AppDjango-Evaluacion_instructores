@@ -1,0 +1,26 @@
+{% extends "evaluacionHome.html" %}
+{% block title %}
+Prueba Create
+{% endblock title %}
+{% block appEvaluacion %}
+<div class="container mt-5">
+    <h3>Evaluación de instructores</h3>
+    <p>A continuación encontrarás las evaluaciones disponibles</p>
+
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="numero_ficha">Número de ficha</label>
+            <input type="text" class="form-control" id="numero_ficha" name="numero_ficha" placeholder="Digite su número de ficha">
+        </div>
+        <button type="submit" class="btn btn-primary mt-3">Buscar evaluación</button>
+    </form>
+
+    <!-- Mostrar mensaje de error si existe -->
+    {% if mensaje_error %}
+        <div class="alert alert-danger mt-3">
+            {{ mensaje_error }}
+        </div>
+    {% endif %}
+</div>
+{% endblock appEvaluacion %}
